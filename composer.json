@@ -1,0 +1,17 @@
+{
+    "name": "nporiadin/price-merge",
+    "autoload": {
+        "psr-4": {
+            "Nporiadin\\PriceMerge\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikolai Poriadin",
+            "email": "np25071984@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.2"
+    }
+}
