@@ -80,16 +80,16 @@ if (file_exists(OUTPUT_FOLE_NAME)) {
 
 $reader = IOFactory::createReader("Xlsx");
 
-echo "Reading ", $file1, " file", PHP_EOL;
+// echo "Reading ", $file1, " file", PHP_EOL;
 $spreadsheet = $reader->load($file1);
 
-echo "Validating ", $file1, " file", PHP_EOL;
+// echo "Validating ", $file1, " file", PHP_EOL;
 if (!validateFile1($spreadsheet)) {
     echo "File ", $file1, " invalid or was changed; can't process", PHP_EOL;
     exit;
 }
 
-echo "Processing ", $file1, " file", PHP_EOL;
+// echo "Processing ", $file1, " file", PHP_EOL;
 $file1Data = [];
 $currentBrand = null;
 $rows = $spreadsheet->getActiveSheet()->toArray();
