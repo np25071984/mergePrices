@@ -61,13 +61,13 @@ if (!isset($_FILES['file1']) || !isset($_FILES['file2'])) {
     exit;
 }
 
-$file1 = "./files/" . basename($_FILES['file1']['tmp_name']);
+$file1 = "../files/" . basename($_FILES['file1']['tmp_name']);
 if (!move_uploaded_file($_FILES['file1']['tmp_name'], $file1)) {
     echo "Couldn't upload ", $_FILES['file1']["name"];
     exit;
 }
 
-$file2 = "./files/" . basename($_FILES['file2']['tmp_name']);
+$file2 = "../files/" . basename($_FILES['file2']['tmp_name']);
 if (!move_uploaded_file($_FILES['file2']['tmp_name'], $file2)) {
     echo "Couldn't upload ", $_FILES['file2']["name"];
     exit;
