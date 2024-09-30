@@ -56,40 +56,38 @@ function validateFile2(Spreadsheet $spreadsheet): bool
     return true;
 }
 
-if (!isset($_FILES['file1']) || !isset($_FILES['file2'])) {
-    echo "Both files has to be sent!";
+function redirectWithError(string $errorMsg) {
+    session_start();
+    $_SESSION["error_msg"] = $errorMsg;
+    header("Location: index.php");
     exit;
+}
+
+if (!isset($_FILES['file1']) || !isset($_FILES['file2'])) {
+    redirectWithError("Оба файла должны быть загружены!");
 }
 
 $file1 = "../files/" . basename($_FILES['file1']['tmp_name']);
 if (!move_uploaded_file($_FILES['file1']['tmp_name'], $file1)) {
-    echo "Couldn't upload ", $_FILES['file1']["name"];
-    exit;
+    redirectWithError("Не удалось загрузить " . $_FILES['file1']["name"] . " файл");
 }
 
 $file2 = "../files/" . basename($_FILES['file2']['tmp_name']);
 if (!move_uploaded_file($_FILES['file2']['tmp_name'], $file2)) {
-    echo "Couldn't upload ", $_FILES['file2']["name"];
-    exit;
+    redirectWithError("Не удалось загрузить " . $_FILES['file2']["name"] . " файл");
 }
 
 if (file_exists(OUTPUT_FOLE_NAME)) {
-    // echo "Deleting ", OUTPUT_FOLE_NAME, " file", PHP_EOL;
     unlink(OUTPUT_FOLE_NAME);
 }
 
 $reader = IOFactory::createReader("Xlsx");
 
-// echo "Reading ", $file1, " file", PHP_EOL;
 $spreadsheet = $reader->load($file1);
-
-// echo "Validating ", $file1, " file", PHP_EOL;
 if (!validateFile1($spreadsheet)) {
-    echo "File ", $file1, " invalid or was changed; can't process", PHP_EOL;
-    exit;
+    redirectWithError("Файл " . $file1 . " имеет неправильный формат или был изменен");
 }
 
-// echo "Processing ", $file1, " file", PHP_EOL;
 $file1Data = [];
 $currentBrand = null;
 $rows = $spreadsheet->getActiveSheet()->toArray();
@@ -104,16 +102,11 @@ foreach ($rows as $i => $r) {
     $file1Data[$currentBrand][] = [$articl, $name, $price];
 }
 
-// echo "Reading ", $file2, " file", PHP_EOL;
 $spreadsheet = $reader->load($file2);
-
-// echo "Validating ", $file2, " file", PHP_EOL;
 if (!validateFile2($spreadsheet)) {
-    echo "File ", $file2, " invalid or was changed; can't process", PHP_EOL;
-    exit;
+    redirectWithError("Файл " . $file2 . " имеет неправильный формат или был изменен");
 }
 
-// echo "Processing ", $file2, " file", PHP_EOL;
 $file2Data = [];
 $rows = $spreadsheet->getActiveSheet()->toArray();
 foreach ($rows as $r) {
@@ -131,7 +124,6 @@ foreach ($rows as $r) {
 $result = $file1Data + $file2Data;
 ksort($result);
 
-// echo "Generating", OUTPUT_FOLE_NAME, " file", PHP_EOL;
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 $sheet->setTitle(mb_substr("Прайс", 0, Worksheet::SHEET_TITLE_MAXIMUM_LENGTH, 'utf-8'));
@@ -170,8 +162,6 @@ foreach ($result as $brand => $items) {
 $writer = new Xlsx($spreadsheet);
 
 $writer->save(OUTPUT_FOLE_NAME);
-
-// echo "done", PHP_EOL;
 
 unlink($file1);
 unlink($file2);
