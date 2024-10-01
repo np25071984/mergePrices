@@ -67,12 +67,12 @@ if (!isset($_FILES['file1']) || !isset($_FILES['file2'])) {
     redirectWithError("Оба файла должны быть загружены!");
 }
 
-$file1 = "../files/" . basename($_FILES['file1']['tmp_name']);
+$file1 = "../files/" . basename($_FILES['file1']['name']);
 if (!move_uploaded_file($_FILES['file1']['tmp_name'], $file1)) {
     redirectWithError("Не удалось загрузить " . $_FILES['file1']["name"] . " файл");
 }
 
-$file2 = "../files/" . basename($_FILES['file2']['tmp_name']);
+$file2 = "../files/" . basename($_FILES['file2']['name']);
 if (!move_uploaded_file($_FILES['file2']['tmp_name'], $file2)) {
     redirectWithError("Не удалось загрузить " . $_FILES['file2']["name"] . " файл");
 }

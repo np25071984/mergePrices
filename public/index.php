@@ -13,9 +13,10 @@
             if (isset($_SESSION["error_msg"])) {
             ?>
                 <div class="alert alert-warning" role="alert">
-                    <? $_SESSION["error_msg"] ?>
+                    <?= $_SESSION["error_msg"] ?>
                 </div>
             <?php
+                session_unset();
             }
             ?>
             <form enctype="multipart/form-data" method="POST" action="https://ec2-3-144-103-141.us-east-2.compute.amazonaws.com/merge.php">
