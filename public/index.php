@@ -21,7 +21,7 @@
             ?>
             <form enctype="multipart/form-data" method="POST" action="https://ec2-3-144-103-141.us-east-2.compute.amazonaws.com/merge.php">
                 <div class="mb-3">
-                    <label for="file1" class="form-label">Прайс ИП Курзина (Марка):</label>
+                    <label for="file1" class="form-label">Прайс регионы ИП Курзина (Марка):</label>
                     <input type="file" class="form-control" id="file1" name="file1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                 </div>
 
