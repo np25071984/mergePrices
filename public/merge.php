@@ -32,7 +32,7 @@ function validateFile1(Spreadsheet $spreadsheet): bool
 function validateFile2(Spreadsheet $spreadsheet): bool
 {
     $sheet = $spreadsheet->getActiveSheet();
-    if ($sheet->getCell('D1')->getValue() !== "Прайс-лист") {
+    if (mb_substr($sheet->getCell('D1')->getValue(), 0, mb_strlen("Прайс-лист")) !== "Прайс-лист") {
         return false;
     }
     if ($sheet->getCell('D6')->getValue() !== "Бренд") {
